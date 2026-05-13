@@ -26407,6 +26407,34 @@
           crossChartFilters,
         ]);
 
+        const crossBudgetData = useMemo(() => {
+  const levels = ["초등학교", "중학교", "고등학교", "특수학교"];
+  const colors = {
+    초등학교: "#0ea5e9",
+    중학교:   "#10b981",
+    고등학교: "#f59e0b",
+    특수학교: "#a78bfa",
+  };
+  const totalSchools = RAW_SCHOOL_RECORDS.length;
+  const totalBudget = REGIONAL_BUDGET.reduce(
+    (s, r) => s + r.leadTotal + r.focusTotal, 0
+  );
+  const avgPerSchool = totalBudget / totalSchools;
+
+  return levels.map((level) => {
+    const schools = crossFilteredRows.filter(
+      (r) => r.schoolLevel === level
+    ).length;
+    const value = Math.round(avgPerSchool * schools);
+    return { name: level, value, schools, color: colors[level] };
+  });
+}, [crossFilteredRows]);
+
+const crossBudgetTotal = useMemo(
+  () => crossBudgetData.reduce((s, d) => s + d.value, 0),
+  [crossBudgetData]
+);
+        
         const crossBarData = useMemo(
           () =>
             REGIONAL_BUDGET.map((meta) => {

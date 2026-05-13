@@ -27663,6 +27663,9 @@ const crossBudgetTotal = useMemo(
                 </section>
               )}
 
+              {activeTab === "schoolLevelBudget" && (
+  <SchoolLevelBudgetTab />
+)} 
               {activeTab === "explorer" && (
                 <section className={"rounded-2xl p-4 md:p-5 shadow-soft " + darkCard}>
                   <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-4">
